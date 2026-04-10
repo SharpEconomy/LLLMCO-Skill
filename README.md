@@ -13,24 +13,22 @@ This folder is safe to publish separately from the private app repo. It contains
 
 1. Create a new public GitHub repository for the skill only.
 2. Copy the contents of this folder into that repository root.
-3. Replace placeholder URLs with your real GitHub repo and MCP endpoint.
+3. Replace the GitHub repo placeholders with your real public repo URL.
 4. Push the repository.
 
 ## Runtime Requirement
 
-All clients need a reachable MCP server and a bearer token.
+The MCP endpoint is already fixed to the deployed production server. Users only need a bearer token.
 
-- MCP URL: `https://your-mcp-host.example.com/mcp`
-- Token env var: `PROMPT_OPTIMIZER_MCP_API_KEY`
-
-If you expose the MCP endpoint through the Next.js app route instead of the standalone server, use /api/mcp instead of /mcp.
+- Required from user: `PROMPT_OPTIMIZER_MCP_API_KEY`
+- Fixed server endpoint used by all examples: `https://llmcostoptimizer.com/api/mcp`
 
 ## Codex
 
 Install the skill with Codex skill installer:
 
 ~~~text
-Use $skill-installer to install https://github.com/SharpEconomy/LLLMCO-Skill/tree/main/llm-cost-optimizer-mcp
+Use $skill-installer to install https://github.com/<owner>/<repo>/tree/main/llm-cost-optimizer-mcp
 ~~~
 
 Manual install on Windows PowerShell:
@@ -47,7 +45,7 @@ Copy-Item -LiteralPath (Join-Path $tmpDir "llm-cost-optimizer-mcp") -Destination
 Register the MCP server in Codex:
 
 ~~~bash
-codex mcp add llm-cost-optimizer --url https://your-mcp-host.example.com/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
+codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
 ~~~
 
 ## Cursor
@@ -58,7 +56,7 @@ Add this to ~/.cursor/mcp.json or your project .cursor/mcp.json:
 {
   "mcpServers": {
     "llm-cost-optimizer": {
-      "url": "https://your-mcp-host.example.com/mcp",
+      "url": "https://llmcostoptimizer.com/api/mcp",
       "headers": {
         "Authorization": "Bearer ${env:PROMPT_OPTIMIZER_MCP_API_KEY}"
       }
@@ -78,7 +76,7 @@ cursor-agent mcp list
 Register the remote MCP server:
 
 ~~~bash
-claude mcp add --transport http --scope user --header "Authorization: Bearer ${PROMPT_OPTIMIZER_MCP_API_KEY}" llm-cost-optimizer https://your-mcp-host.example.com/mcp
+claude mcp add --transport http --scope user --header "Authorization: Bearer ${PROMPT_OPTIMIZER_MCP_API_KEY}" llm-cost-optimizer https://llmcostoptimizer.com/api/mcp
 ~~~
 
 Project-scoped alternative in .mcp.json:
@@ -88,7 +86,7 @@ Project-scoped alternative in .mcp.json:
   "mcpServers": {
     "llm-cost-optimizer": {
       "type": "http",
-      "url": "https://your-mcp-host.example.com/mcp",
+      "url": "https://llmcostoptimizer.com/api/mcp",
       "headers": {
         "Authorization": "Bearer ${PROMPT_OPTIMIZER_MCP_API_KEY}"
       }
@@ -108,7 +106,7 @@ Edit the raw MCP config file:
 {
   "mcpServers": {
     "llm-cost-optimizer": {
-      "serverUrl": "https://your-mcp-host.example.com/mcp",
+      "serverUrl": "https://llmcostoptimizer.com/api/mcp",
       "headers": {
         "Authorization": "Bearer YOUR_PROMPT_OPTIMIZER_MCP_API_KEY"
       }
@@ -119,7 +117,7 @@ Edit the raw MCP config file:
 
 ## Other MCP Clients
 
-Any client that supports remote streamable HTTP MCP can reuse the same endpoint and bearer token. Configure:
+Any client that supports remote streamable HTTP MCP can reuse the same production endpoint and bearer token. Configure:
 
-- URL: `https://your-mcp-host.example.com/mcp`
+- URL: `https://llmcostoptimizer.com/api/mcp`
 - Header: `Authorization: Bearer <token>`
