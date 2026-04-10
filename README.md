@@ -1,103 +1,68 @@
-# LLM Cost Optimizer MCP Skill
+# LLM Cost Optimizer MCP
 
-This folder is safe to publish separately from the private app repo. It contains the portable Codex skill package plus MCP setup snippets for other clients.
+Use MCP tools for prompt-heavy tasks: analyze prompt waste first, then optimize, estimate cost, or compare models. Treat degraded results as suggest-only output.
 
-> [!IMPORTANT]
-> The llm-cost-optimizer-mcp folder is a Codex skill. Cursor, Claude, Antigravity, and most other MCP clients do not install Codex skills directly. They connect to the MCP server over HTTP instead.
+This export is meant for a separate public repository. It contains the portable Codex skill plus repo-level metadata for installers and automation.
 
 ## Contents
 
-- llm-cost-optimizer-mcp/
+- `skill.json`: repo-level metadata for the public skill package
+- `llm-cost-optimizer-mcp/`: the Codex skill folder that users install
+
+## Publish
+
+1. Create a public GitHub repository for this exported folder.
+2. Copy these files into that repository root.
+3. Replace any placeholder repository URLs if you did not pass `-PublicRepoUrl`.
+4. Push the repository.
 
 ## Runtime Requirement
 
 The MCP endpoint is already fixed to the deployed production server. Users only need a bearer token.
 
-- Required from user: `PROMPT_OPTIMIZER_MCP_API_KEY`
-- Fixed server endpoint used by all examples: `https://llmcostoptimizer.com/api/mcp`
+- Required env var: `PROMPT_OPTIMIZER_MCP_API_KEY`
+- Remote MCP endpoint: `https://llmcostoptimizer.com/api/mcp`
 
 ## Codex
 
-Check whether Codex CLI is already installed:
+Install the skill with Codex skill installer:
 
-### macOS / Linux
-
-~~~bash
-command -v codex
-codex --help
-~~~
-
-### Windows PowerShell
-
-~~~powershell
-Get-Command codex -ErrorAction SilentlyContinue
-codex --help
-~~~
-
-If codex is not found, install it first.
-
-### Install Codex CLI on macOS / Linux
-
-~~~bash
-npm install -g @openai/codex
-command -v codex
-codex --help
-~~~
-
-### Install Codex CLI on Windows PowerShell
-
-~~~powershell
-npm install -g @openai/codex
-Get-Command codex -ErrorAction SilentlyContinue
-codex --help
-~~~
+```text
+Use `$skill-installer to install https://github.com/MindcrackerInc/llm-cost-optimizer-codex-skill/tree/main/llm-cost-optimizer-mcp
+```
 
 Manual install on Windows PowerShell:
 
-~~~powershell
-$repoUrl = "https://github.com/<owner>/<repo>.git"
+```powershell
+$repoUrl = "https://github.com/MindcrackerInc/llm-cost-optimizer-codex-skill.git"
 $tmpDir = Join-Path $env:TEMP "llm-cost-optimizer-mcp-skill"
 if (Test-Path $tmpDir) { Remove-Item -LiteralPath $tmpDir -Recurse -Force }
 git clone $repoUrl $tmpDir
 New-Item -ItemType Directory -Force (Join-Path $HOME ".codex\skills") | Out-Null
 Copy-Item -LiteralPath (Join-Path $tmpDir "llm-cost-optimizer-mcp") -Destination (Join-Path $HOME ".codex\skills\llm-cost-optimizer-mcp") -Recurse -Force
-~~~
+```
 
 Register the MCP server in Codex:
 
-### MacOS / Linux
+### macOS / Linux
 
-~~~bash
+```bash
 export PROMPT_OPTIMIZER_MCP_API_KEY="your_bearer_token_here"
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
-~~~
+```
 
-### Windows powerShell
+### Windows PowerShell
 
-~~~powershell
+```powershell
 $env:PROMPT_OPTIMIZER_MCP_API_KEY = "your_bearer_token_here"
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
-~~~
-
-### Windows Command Prompt
-
-~~~bat
-set PROMPT_OPTIMIZER_MCP_API_KEY=your_bearer_token_here
-codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
-~~~
-
-If
-pm install -g @openai/codex succeeds but codex is still not found, restart the terminal or add your npm global bin directory to PATH.
-
-~~~bash
-codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
-~~~
+```
 
 ## Cursor
 
-Add this to ~/.cursor/mcp.json or your project .cursor/mcp.json:
+Add this to `~/.cursor/mcp.json` or your project `.cursor/mcp.json`:
 
-~~~json
+```json
 {
   "mcpServers": {
     "llm-cost-optimizer": {
@@ -108,25 +73,19 @@ Add this to ~/.cursor/mcp.json or your project .cursor/mcp.json:
     }
   }
 }
-~~~
-
-Optional verification:
-
-~~~bash
-cursor-agent mcp list
-~~~
+```
 
 ## Claude Code
 
 Register the remote MCP server:
 
-~~~bash
+```bash
 claude mcp add --transport http --scope user --header "Authorization: Bearer ${PROMPT_OPTIMIZER_MCP_API_KEY}" llm-cost-optimizer https://llmcostoptimizer.com/api/mcp
-~~~
+```
 
-Project-scoped alternative in .mcp.json:
+Project-scoped alternative in `.mcp.json`:
 
-~~~json
+```json
 {
   "mcpServers": {
     "llm-cost-optimizer": {
@@ -138,16 +97,16 @@ Project-scoped alternative in .mcp.json:
     }
   }
 }
-~~~
+```
 
 ## Antigravity
 
 Edit the raw MCP config file:
 
 - macOS/Linux: `~/.gemini/antigravity/mcp_config.json`
-- Windows: `C:\\Users\\<USERNAME>\\.gemini\\antigravity\\mcp_config.json`
+- Windows: `C:\Users\<USERNAME>\.gemini\antigravity\mcp_config.json`
 
-~~~json
+```json
 {
   "mcpServers": {
     "llm-cost-optimizer": {
@@ -158,11 +117,12 @@ Edit the raw MCP config file:
     }
   }
 }
-~~~
+```
 
 ## Other MCP Clients
 
-Any client that supports remote streamable HTTP MCP can reuse the same production endpoint and bearer token. Configure:
+Any client that supports remote streamable HTTP MCP can reuse the same production endpoint and bearer token.
 
 - URL: `https://llmcostoptimizer.com/api/mcp`
 - Header: `Authorization: Bearer <token>`
+

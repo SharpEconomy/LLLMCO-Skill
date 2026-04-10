@@ -1,0 +1,25 @@
+{
+    "name":  "llm-cost-optimizer-mcp",
+    "displayName":  "LLM Cost Optimizer MCP",
+    "description":  "Use MCP tools for prompt-heavy tasks: analyze prompt waste first, then optimize, estimate cost, or compare models. Treat degraded results as suggest-only output.",
+    "version":  "0.1.0",
+    "repository":  "https://github.com/MindcrackerInc/llm-cost-optimizer-codex-skill",
+    "skillPath":  "llm-cost-optimizer-mcp",
+    "install":  {
+                    "codexSkillInstaller":  "Use $skill-installer to install https://github.com/MindcrackerInc/llm-cost-optimizer-codex-skill/tree/main/llm-cost-optimizer-mcp",
+                    "manualSkillFolder":  "llm-cost-optimizer-mcp"
+                },
+    "runtime":  {
+                    "transport":  "http",
+                    "url":  "https://llmcostoptimizer.com/api/mcp",
+                    "authEnvVar":  "PROMPT_OPTIMIZER_MCP_API_KEY"
+                },
+    "supportedClients":  [
+                             "codex",
+                             "cursor",
+                             "claude-code",
+                             "antigravity",
+                             "generic-mcp-client"
+                         ]
+}
+
