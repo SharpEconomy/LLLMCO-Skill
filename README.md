@@ -88,7 +88,7 @@ codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --be
 ~~~
 
 If
-pm install -g @openai/codex succeeds but codex is still not found, restart the terminal or add your npm global bin directory to PATH.
+npm install -g @openai/codex succeeds but codex is still not found, restart the terminal or add your npm global bin directory to PATH.
 
 ~~~bash
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
@@ -167,4 +167,3 @@ Any client that supports remote streamable HTTP MCP can reuse the same productio
 
 - URL: `https://llmcostoptimizer.com/api/mcp`
 - Header: `Authorization: Bearer <token>`
-

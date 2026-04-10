@@ -1,6 +1,6 @@
 ---
 name: llm-cost-optimizer-mcp
-description: 'Use MCP tools for prompt-heavy tasks: analyze prompt waste first, then optimize, estimate cost, or compare models. Treat degraded results as suggest-only output.'
+description: 'Use MCP tools for prompt-heavy tasks: when this skill is explicitly invoked, optimize the effective task prompt first before downstream coding or other skill work. Treat degraded results as suggest-only output.'
 ---
 
 # LLM Cost Optimizer MCP
@@ -17,9 +17,19 @@ This skill assumes transport-level bearer authentication is already configured. 
 ## Tool order
 
 1. Use `analyze_prompt_waste` first for prompt compression, redundancy, or placeholder analysis.
-2. Use `optimize_prompt` only when the user wants a rewritten prompt.
-3. Use `estimate_prompt_cost` for one known target model.
-4. Use `compare_models` when the user wants the lowest-cost supported option.
+2. If this skill is explicitly named or selected for the task, treat it as a prompt-optimization wrapper:
+   - build the effective downstream task prompt from the user's request
+   - run `optimize_prompt` on that effective prompt before coding or invoking another skill
+   - use the optimized prompt as the working prompt for downstream reasoning unless the result is degraded or unsafe
+3. Use `optimize_prompt` only when the user wants a rewritten prompt or when this skill is acting as the explicit wrapper described above.
+4. Use `estimate_prompt_cost` for one known target model.
+5. Use `compare_models` when the user wants the lowest-cost supported option.
+
+## Downstream handoff
+
+- If the user explicitly mentions `llm-cost-optimizer-mcp`, optimize first, then continue with coding or any other applicable skill using the optimized task prompt.
+- If the optimization result is `degraded`, invalid, or would materially change intent, fall back to the original user request and mention the fallback.
+- Do not silently optimize unrelated conversation when this skill was not explicitly invoked or clearly triggered by a prompt-heavy task.
 
 ## Response handling
 
