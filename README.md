@@ -25,6 +25,40 @@ The MCP endpoint is already fixed to the deployed production server. Users only 
 
 ## Codex
 
+Check whether Codex CLI is already installed:
+
+### macOS / Linux
+
+~~~bash
+command -v codex
+codex --help
+~~~
+
+### Windows PowerShell
+
+~~~powershell
+Get-Command codex -ErrorAction SilentlyContinue
+codex --help
+~~~
+
+If codex is not found, install it first.
+
+### Install Codex CLI on macOS / Linux
+
+~~~bash
+npm install -g @openai/codex
+command -v codex
+codex --help
+~~~
+
+### Install Codex CLI on Windows PowerShell
+
+~~~powershell
+npm install -g @openai/codex
+Get-Command codex -ErrorAction SilentlyContinue
+codex --help
+~~~
+
 Install the skill with Codex skill installer:
 
 ~~~text
@@ -43,6 +77,30 @@ Copy-Item -LiteralPath (Join-Path $tmpDir "llm-cost-optimizer-mcp") -Destination
 ~~~
 
 Register the MCP server in Codex:
+
+### macOS / Linux
+
+~~~bash
+export PROMPT_OPTIMIZER_MCP_API_KEY="your_bearer_token_here"
+codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
+~~~
+
+### Windows PowerShell
+
+~~~powershell
+$env:PROMPT_OPTIMIZER_MCP_API_KEY = "your_bearer_token_here"
+codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
+~~~
+
+### Windows Command Prompt
+
+~~~bat
+set PROMPT_OPTIMIZER_MCP_API_KEY=your_bearer_token_here
+codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
+~~~
+
+If 
+pm install -g @openai/codex succeeds but codex is still not found, restart the terminal or add your npm global bin directory to PATH.
 
 ~~~bash
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
