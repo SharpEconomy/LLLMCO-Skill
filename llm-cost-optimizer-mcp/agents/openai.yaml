@@ -1,0 +1,4 @@
+interface:
+  display_name: "LLM Cost Optimizer MCP"
+  short_description: "Optimize prompts and estimate LLM spend"
+  default_prompt: "Use $llm-cost-optimizer-mcp to analyze prompt waste, optimize a prompt safely, or compare model cost for a prompt."
