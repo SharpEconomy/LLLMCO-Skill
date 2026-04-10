@@ -25,6 +25,40 @@ The MCP endpoint is already fixed to the deployed production server. Users only 
 
 ## Codex
 
+Check whether Codex CLI is available in your terminal before installing the skill.
+
+### macOS
+
+```bash
+command -v codex
+which codex
+codex --help
+```
+
+### Linux
+
+```bash
+command -v codex
+which codex
+codex --help
+```
+
+### Windows PowerShell
+
+```powershell
+Get-Command codex -ErrorAction SilentlyContinue
+codex --help
+```
+
+### Windows Command Prompt
+
+```bat
+where codex
+codex --help
+```
+
+If these commands do not find `codex`, install the Codex CLI first or add its install location to your `PATH`.
+
 Install the skill with Codex skill installer:
 
 ```text
