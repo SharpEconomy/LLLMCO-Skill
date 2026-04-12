@@ -80,6 +80,12 @@ $env:PROMPT_OPTIMIZER_MCP_API_KEY = "your_bearer_token_here"
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
 ~~~
 
+For new VS Code or Codex sessions on Windows, persist the token at user scope and restart the app after setting it:
+
+~~~powershell
+[Environment]::SetEnvironmentVariable("PROMPT_OPTIMIZER_MCP_API_KEY", "your_bearer_token_here", "User")
+~~~
+
 ### Windows Command Prompt
 
 ~~~bat
