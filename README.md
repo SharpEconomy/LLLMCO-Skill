@@ -7,8 +7,14 @@ This folder is safe to publish separately from the private app repo. It contains
 
 ## Contents
 
-- `skill.json`: repo-level metadata for the public skill package
-- `llm-cost-optimizer-mcp/`: the Codex skill folder that users install
+- llm-cost-optimizer-mcp/
+
+## Publish
+
+1. Create a new public GitHub repository for the skill only.
+2. Copy the contents of this folder into that repository root.
+3. Replace the GitHub repo placeholders with your real public repo URL.
+4. Push the repository.
 
 ## Runtime Requirement
 
@@ -16,6 +22,11 @@ The MCP endpoint is already fixed to the deployed production server. Users only 
 
 - Required from user: `PROMPT_OPTIMIZER_MCP_API_KEY`
 - Fixed server endpoint used by all examples: `https://llmcostoptimizer.com/api/mcp`
+
+## Skill behavior
+
+- When the user explicitly mentions llm-cost-optimizer-mcp, the skill is expected to call optimize_prompt first and then hand the optimized working prompt back to Codex for downstream execution.
+- If you previously installed an older version of the skill, reinstall it after publishing or exporting updates.
 
 ## Codex
 
@@ -53,6 +64,12 @@ Get-Command codex -ErrorAction SilentlyContinue
 codex --help
 ~~~
 
+Install the skill with Codex skill installer:
+
+~~~text
+Use $skill-installer to install https://github.com/<owner>/<repo>/tree/main/llm-cost-optimizer-mcp
+~~~
+
 Manual install on Windows PowerShell:
 
 ~~~powershell
@@ -66,14 +83,14 @@ Copy-Item -LiteralPath (Join-Path $tmpDir "llm-cost-optimizer-mcp") -Destination
 
 Register the MCP server in Codex:
 
-### MacOS / Linux
+### macOS / Linux
 
 ~~~bash
 export PROMPT_OPTIMIZER_MCP_API_KEY="your_bearer_token_here"
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
 ~~~
 
-### Windows powerShell
+### Windows PowerShell
 
 ~~~powershell
 $env:PROMPT_OPTIMIZER_MCP_API_KEY = "your_bearer_token_here"
@@ -87,8 +104,8 @@ set PROMPT_OPTIMIZER_MCP_API_KEY=your_bearer_token_here
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
 ~~~
 
-If
-npm install -g @openai/codex succeeds but codex is still not found, restart the terminal or add your npm global bin directory to PATH.
+If 
+pm install -g @openai/codex succeeds but codex is still not found, restart the terminal or add your npm global bin directory to PATH.
 
 ~~~bash
 codex mcp add llm-cost-optimizer --url https://llmcostoptimizer.com/api/mcp --bearer-token-env-var PROMPT_OPTIMIZER_MCP_API_KEY
