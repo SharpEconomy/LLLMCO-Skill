@@ -1,3 +1,4 @@
+--- 
 name: llm-cost-optimizer-mcp
 description: 'Use MCP tools for prompt-heavy tasks: when this skill is explicitly invoked, always optimize the effective task prompt first, then continue downstream work using the optimized prompt unless the result is degraded or unsafe.'
 
