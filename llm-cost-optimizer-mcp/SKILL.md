@@ -9,6 +9,7 @@ Use this skill when an MCP server exposes these tools:
 
 - `analyze_prompt_waste`
 - `optimize_prompt`
+- `context_engineer`
 - `estimate_prompt_cost`
 - `compare_models`
 
@@ -21,8 +22,9 @@ If the user explicitly mentions `llm-cost-optimizer-mcp` or selects this skill b
 1. Build the effective downstream task prompt from the user's request.
 2. Run `analyze_prompt_waste` on that effective prompt.
 3. Run `optimize_prompt` on that effective prompt.
-4. If the optimization result is `success` and does not materially change intent, continue the real task using the optimized prompt as the working prompt.
-5. If the optimization result is `degraded`, invalid, or unsafe, fall back to the original user request and mention the fallback.
+4. If the user needs task framing instead of a rewrite, run `context_engineer` on the rough task brief before downstream work.
+5. If the optimization result is `success` and does not materially change intent, continue the real task using the optimized prompt as the working prompt.
+6. If the optimization result is `degraded`, invalid, or unsafe, fall back to the original user request and mention the fallback.
 
 Do not skip the optimization step when this skill was explicitly invoked.
 
@@ -31,8 +33,9 @@ Do not skip the optimization step when this skill was explicitly invoked.
 1. Use `analyze_prompt_waste` first for prompt compression, redundancy, or placeholder analysis.
 2. If this skill is explicitly named or selected for the task, follow the required wrapper behavior above.
 3. Use `optimize_prompt` when the user wants a rewritten prompt or when this skill is acting as the explicit wrapper described above.
-4. Use `estimate_prompt_cost` for one known target model.
-5. Use `compare_models` when the user wants the lowest-cost supported option.
+4. Use `context_engineer` when the user has a rough task brief and needs a compact, cost-aware prompt package.
+5. Use `estimate_prompt_cost` for one known target model.
+6. Use `compare_models` when the user wants the lowest-cost supported option.
 
 ## Downstream handoff
 
